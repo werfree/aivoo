@@ -1,9 +1,21 @@
-import React from 'react'
+'use client';
+import HeroSection from './components/HeroSection';
+import FeatureSection from './components/FeatureCard';
+import FaqSection from './components/FaqItem';
+import TestimonialSection from './components/TestimonialCard';
+// import { ShieldCheck } from '@/components/icons/landingPage';
 
-const Page = () => {
+
+
+export default function LandingPage() {
+  
+
   return (
-    <div>Page</div>
-  )
+    <>
+      <HeroSection/>
+      <FeatureSection/>
+      <TestimonialSection/>
+      <FaqSection/>
+    </>
+  );
 }
-
-export default Page
