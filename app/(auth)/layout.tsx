@@ -1,13 +1,12 @@
-import Clerk from '@/components/clerk'
-import React from 'react'
+import Clerk from "@/components/clerk";
+import React from "react";
 
-function AuthLayout({children}: {children: React.ReactNode}) {
+function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-        <Clerk/>
-        <div>{children}</div>
+      <div>{children}</div>
     </>
-  )
+  );
 }
 
-export default AuthLayout
+export default AuthLayout;

@@ -27,6 +27,7 @@ function TestimonialCard({ name, company, text, avatar }: TestimonialCardProps) 
           alt={name}
           width={56}
           height={56}
+          unoptimized
         />  
         <div>
           <div className="font-bold text-white">{name}</div>

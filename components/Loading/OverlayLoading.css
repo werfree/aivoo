@@ -1,0 +1,32 @@
+@keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    /* Keyframe for the subtle pulsing glow of the orbs */
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 8px 2px var(--glow-color-start); opacity: 1; }
+      50% { box-shadow: 0 0 12px 4px var(--glow-color-end); opacity: 0.8; }
+    }
+
+    /* Individual animation delays for the orbs to desynchronize them */
+    .orb-1 {
+      --glow-color-start: #06b6d4; /* cyan-500 */
+      --glow-color-end: #22d3ee;   /* cyan-400 */
+      animation: pulse-glow 2s infinite ease-in-out;
+    }
+    .orb-2 {
+      --glow-color-start: #a855f7; /* purple-500 */
+      --glow-color-end: #c084fc;   /* purple-400 */
+      animation: pulse-glow 2s infinite ease-in-out;
+      animation-delay: -0.5s;
+    }
+    .orb-3 {
+      --glow-color-start: #ec4899; /* pink-500 */
+      --glow-color-end: #f472b6;   /* pink-400 */
+      animation: pulse-glow 2s infinite ease-in-out;
+      animation-delay: -1s;
+    }
+
+    /* The parent containers for the orbs, which handle the spinning */
+    .orbit {
+      animation: spin linear infinite;
+    }
