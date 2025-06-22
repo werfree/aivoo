@@ -1,18 +1,14 @@
 // components/HeaderActions.tsx
 "use client";
 
-import { useAuth, useClerk } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import Button from "../Button";
-import { Loader, LogOutIcon } from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAppStore } from "@/store/appStore";
+import { LogOutIcon } from "lucide-react";
+import useSignOut from "@/hooks/useSignOut";
 
 export default function HeaderActions() {
-  const { signOut } = useClerk();
+  const signOut = useSignOut();
   const { userId } = useAuth();
-  const router = useRouter();
-  const { setAppLoading, app } = useAppStore();
 
   if (!userId) {
     return (
@@ -40,12 +36,7 @@ export default function HeaderActions() {
       variant="secondary"
       label="Logout"
       onClick={() => {
-        setAppLoading(true);
-        signOut().finally(() => {
-          setAppLoading(false);
-          localStorage.removeItem("userId");
-          router.replace("/");
-        });
+        signOut();
       }}
     />
   );
