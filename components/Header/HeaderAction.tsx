@@ -4,11 +4,11 @@
 import { useAuth } from "@clerk/nextjs";
 import Button from "../Button";
 import { LogOutIcon } from "lucide-react";
-import useSignOut from "@/hooks/useSignOut";
+import { useRouter } from "next/navigation";
 
 export default function HeaderActions() {
-  const signOut = useSignOut();
   const { userId } = useAuth();
+  const router = useRouter();
 
   if (!userId) {
     return (
@@ -36,7 +36,7 @@ export default function HeaderActions() {
       variant="secondary"
       label="Logout"
       onClick={() => {
-        signOut();
+        router.replace("/sign-out");
       }}
     />
   );

@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
 
-function RootLayout({children}: {children: React.ReactNode}) {
-  return (
-    <>{children}</>
-  )
+function RootLayout({ children }: { children: React.ReactNode }) {
+  console.log("Recruiter RootLayout mounted");
+  return <>{children}</>;
 }
 
-export default RootLayout
+export default RootLayout;

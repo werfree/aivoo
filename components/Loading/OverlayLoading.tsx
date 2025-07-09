@@ -2,7 +2,13 @@
 import React from "react";
 import "./OverlayLoading.css";
 import { useAppStore } from "@/store/appStore";
-function OverlayLoading({ showLoader = false }: { showLoader?: boolean }) {
+function OverlayLoading({
+  showLoader = false,
+  text = "Analyzing...",
+}: {
+  showLoader?: boolean;
+  text?: string;
+}) {
   const {
     app: { isLoading },
   } = useAppStore();
@@ -37,7 +43,7 @@ function OverlayLoading({ showLoader = false }: { showLoader?: boolean }) {
           <div className="absolute top-0 left-1/2 w-4 h-4 -translate-x-1/2 -translate-y-1/2 rounded-full orb-3"></div>
         </div>
       </div>
-      <p className="mt-6 text-lg tracking-widest text-gray-300">ANALYZING...</p>
+      <p className="mt-6 text-lg tracking-widest text-gray-300">{text}</p>
     </div>
   );
 }

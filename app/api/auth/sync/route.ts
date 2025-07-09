@@ -1,6 +1,7 @@
 // app/api/auth/sync/route.ts
 import { USER_ROLES } from '@/constant/constant';
 import prisma from '@/lib/prisma';
+import { createUserToken } from '@/utils/jwt';
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
@@ -15,7 +16,13 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  const { clerkId, email, firstName, lastName, role } = body;
+  const { clerkId, email, firstName, lastName, role }:{
+    clerkId: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    role: USER_ROLES;
+  } = body;
 
   if (!clerkId || !email) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
@@ -39,18 +46,32 @@ export async function POST(req: Request) {
   // Determine primary role
   const primaryRole = role;
 
-  // Store temporary session data (removed on session end)
-  const clerk = await 
-  clerkClient();
-  clerk.users.updateUserMetadata(session.userId, {
-        privateMetadata:{
-            userId: user.id,
-            role: primaryRole,
-        }
-    }
-  ).catch(e=>{
-    console.error('Error updating user metadata:', e?.errors[0])
+  // Destructure to exclude relations from initial spread
+  const { HR, Candidate, ...userWithoutRelations } = user;
+  const response = NextResponse.json({ 
+    ...userWithoutRelations, 
+    role: primaryRole,
+    ...(HR && { HR }),
+    ...(Candidate && { Candidate })
   });
 
-  return NextResponse.json({ ...user, role: primaryRole });
+  // Set HTTP-only cookies with user data
+  const userToken = createUserToken({
+    userId: user.id,
+    clerkId: user.clerkId,
+    role: role,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+  });
+  response.cookies.set("user-token", userToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 7 * 24 * 60 * 60, // 7 days
+    path: "/",
+  });
+
+
+  return response;
 }
